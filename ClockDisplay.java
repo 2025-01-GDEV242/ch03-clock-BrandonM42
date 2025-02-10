@@ -16,7 +16,9 @@ public class ClockDisplay
 {
     private NumberDisplay hours;
     private NumberDisplay minutes;
-    private String displayString;    // simulates the actual display
+    private String displayString;
+    public String amOrPm = "";
+    // simulates the actual display
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
@@ -24,7 +26,7 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
         updateDisplay();
     }
@@ -34,10 +36,11 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute, String amPm)
     {
         hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
+        amOrPm = amPm;
         setTime(hour, minute);
     }
 
@@ -47,6 +50,28 @@ public class ClockDisplay
      */
     public void timeTick()
     {
+        //checks for a certain meridian and time to flip the meridian
+        if(hours.getValue() == 11 && minutes.getValue() == 59 && (amOrPm.charAt(0) == 'p' ||amOrPm.charAt(0) == 'P'))
+        {
+            minutes.increment();
+            amOrPm = "AM";
+        }
+        else if(hours.getValue() == 11 && minutes.getValue() == 59 && (amOrPm.charAt(0) == 'a' ||amOrPm.charAt(0) == 'A'))
+        {
+            minutes.increment();
+            amOrPm = "PM";
+        }
+        else if(hours.getValue() == 12 && minutes.getValue() == 59 && (amOrPm.charAt(0) == 'p' ||amOrPm.charAt(0) == 'P'))
+        {
+            minutes.increment();
+            amOrPm = "AM";
+        }
+        else if(hours.getValue() == 12 && minutes.getValue() == 59 && (amOrPm.charAt(0) == 'a' ||amOrPm.charAt(0) == 'A'))
+        {
+            minutes.increment();
+            amOrPm = "PM";
+        }
+        else
         minutes.increment();
         if(minutes.getValue() == 0) {  // it just rolled over!
             hours.increment();
@@ -78,7 +103,20 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
+        //checks if the time is greater than 12 to account for military time and subtract it to make it 12 hour
+        if(hours.getValue() > 12)
+        {
+            hours.setValue(hours.getValue()-12);
+        }
+        
+        //checks if the time is 0 to make it 12
+        if(hours.getValue() == 0)
+        {
+            hours.setValue(12);
+        }
+        
+        //prints the time with correct meridian
         displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue();
+                        minutes.getDisplayValue() + amOrPm;
     }
 }
