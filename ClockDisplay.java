@@ -21,6 +21,7 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;
+    private int timeTrack;
     // simulates the actual display
     
     /**
@@ -83,6 +84,30 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
+        if(hours.getValue() > 12)
+        {
+            timeTrack = hours.getValue() - 12;
+        }
+        else timeTrack = hours.getValue();
+        
+        if(hours.getValue() == 0)
+        {
+            timeTrack = 12;
+        }
+        
+        if(hours.getValue() < 12)
+        {
+            displayString = timeTrack + ":" + 
+                    minutes.getDisplayValue() + "AM";
+        }
+        
+        if(hours.getValue() >= 12)
+        {
+            displayString = timeTrack + ":" + 
+                    minutes.getDisplayValue() + "PM";
+        }
+        
+        /*
         String test = "";
         if(hours.getValue() > 12)
         {
@@ -102,6 +127,7 @@ public class ClockDisplay
 
         displayString = hours.getDisplayValue() + ":" + 
                     minutes.getDisplayValue() + test;
+        */
 
     }
 }
