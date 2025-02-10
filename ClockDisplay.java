@@ -5,12 +5,16 @@
  * range of the clock is 00:00 (midnight) to 23:59 (one minute before 
  * midnight).
  * 
+ * the clock represents hours in the range from 0 - 23
+ * and converts to range 12 - 11 as shown on us clocks
+ * 
  * The clock display receives "ticks" (via the timeTick method) every minute
  * and reacts by incrementing the display. This is done in the usual clock
  * fashion: the hour increments when the minutes roll over to zero.
  * 
  * @author Michael Kölling and David J. Barnes
  * @version 2016.02.29
+ * 
  */
 public class ClockDisplay
 {
